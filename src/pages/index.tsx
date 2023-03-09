@@ -3,11 +3,12 @@ import SearchBar from '@/../components/SearchBar';
 import SideBar from '@/../components/SideBar';
 import Card from '@/../components/Card';
 import { useState } from 'react';
+import { IProvince } from '@/../interfaces';
 
-export default function Home({ provinces }) {
+export default function Home({ provinces }: { provinces: IProvince[] }) {
   const [provincesFound, setProvincesFound] = useState(null);
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: any) => {
     e.preventDefault();
     const nombre = e.target[0].value;
     console.log(nombre);
@@ -15,6 +16,10 @@ export default function Home({ provinces }) {
     const getProvinces = async () => {
       const res = await fetch(`/api/provinces?nombre=${nombre}`);
       const data = await res.json();
+      if (data.total === 0) {
+        setProvincesFound(null);
+        return;
+      }
       const provincesFound = data.provincias;
       setProvincesFound(provincesFound);
     };
@@ -34,10 +39,13 @@ export default function Home({ provinces }) {
           Search Provinces In Argentina
         </h1>
         <SearchBar onSubmit={onSubmit} />
-        {provincesFound &&
-          provincesFound.map((province) => (
+        {provincesFound ? (
+          provincesFound.map((province: IProvince) => (
             <Card province={province} key={province.id} />
-          ))}
+          ))
+        ) : (
+          <p className='text-2xl font-bold mt-10 mb-10'>No results found</p>
+        )}
       </main>
       <SideBar provinces={provinces} />
     </div>
