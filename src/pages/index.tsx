@@ -6,31 +6,37 @@ import { useState } from 'react';
 import { IProvince } from '@/../interfaces';
 
 export default function Home({ provinces }: { provinces: IProvince[] }) {
-  const [provincesFound, setProvincesFound] = useState(null);
+  const [provincesFound, setProvincesFound] = useState<IProvince[] | null>([]);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
     const nombre = e.target[0].value;
-    console.log(nombre);
 
     const getProvinces = async () => {
       const res = await fetch(`/api/provinces?nombre=${nombre}`);
       const data = await res.json();
-      if (data.total === 0) {
+
+      if (data.status !== 200) {
         setProvincesFound(null);
         return;
       }
+
       const provincesFound = data.provincias;
       setProvincesFound(provincesFound);
     };
     getProvinces();
   };
 
+  console.log(provincesFound);
+
   return (
     <div className='flex'>
       <Head>
         <title>Search In Argentina</title>
-        <meta name='description' content='App to search a place in Argentina' />
+        <meta
+          name='description'
+          content='App to search latitudes and longitudes in argentinian provinces'
+        />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
