@@ -16,7 +16,7 @@ export default function Home({ provinces }: { provinces: IProvince[] }) {
       const res = await fetch(`/api/provinces?nombre=${nombre}`);
       const data = await res.json();
 
-      if (data.status !== 200) {
+      if (data.status === 404) {
         setProvincesFound(null);
         return;
       }
@@ -32,7 +32,7 @@ export default function Home({ provinces }: { provinces: IProvince[] }) {
   return (
     <div className='flex'>
       <Head>
-        <title>Search In Argentina</title>
+        <title>Search Latitude and Longitude in Argentina</title>
         <meta
           name='description'
           content='App to search latitudes and longitudes in argentinian provinces'
@@ -40,15 +40,25 @@ export default function Home({ provinces }: { provinces: IProvince[] }) {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className='flex flex-1 flex-col items-center'>
-        <h1 className='text-4xl font-bold mt-10 mb-10'>
-          Search Provinces In Argentina
+      <main
+        className='flex flex-1 flex-col items-center
+      bg-gradient-to-t from-sky-400 to-blue-700 '>
+        <h1
+          className='text-3xl font-bold mt-10 mb-10 text-white text-center
+        '>
+          Search Latitude and Longitude <br />
+          in Argentinian Provinces
         </h1>
         <SearchBar onSubmit={onSubmit} />
         {provincesFound ? (
-          provincesFound.map((province: IProvince) => (
-            <Card province={province} key={province.id} />
-          ))
+          <div
+            className='flex flex-wrap justify-center gap-4 
+          mt-10 mb-10
+          '>
+            {provincesFound.map((province: IProvince) => (
+              <Card province={province} key={province.id} />
+            ))}
+          </div>
         ) : (
           <p className='text-2xl font-bold mt-10 mb-10'>No results found</p>
         )}

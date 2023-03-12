@@ -4,10 +4,10 @@ const Card = ({ province }) => {
     centroide: { lat, lon },
   } = province;
   return (
-    <div>
-      <h3>{nombre}</h3>
-      <p>Latitude {lat}</p>
-      <p>Longitude {lon}</p>
+    <div className='bg-white shadow-md rounded-lg p-4 w-80'>
+      <h3 className='text-xl font-bold'>{nombre}</h3>
+      <p className='text-gray-500'>Latitude {lat}</p>
+      <p className='text-gray-500'>Longitude {lon}</p>
     </div>
   );
 };

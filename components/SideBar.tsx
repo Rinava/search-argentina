@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 const SideBar = ({ provinces }) => {
   return (
@@ -10,15 +11,16 @@ const SideBar = ({ provinces }) => {
       {provinces && (
         <ul className='flex flex-col items-center justify-center'>
           {provinces.map((province) => (
-            <li
+            <motion.li
               key={province.id}
-              className='text-sky-200 text-center font-bold'>
+              className='text-sky-200 text-center font-bold'
+              whileHover={{ scale: 1.4, color: '#f8e71c' }}>
               <Link
                 href={`/provinces/${province.nombre}`}
                 key={province.nombre}>
                 {province.nombre}
               </Link>
-            </li>
+            </motion.li>
           ))}
         </ul>
       )}
