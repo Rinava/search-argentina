@@ -16,6 +16,7 @@ export const SearchBar = ({ onSubmit, className }: SearchBarProps) => {
 
   return (
     <form
+    aria-label="form"
       className={clsx(
         'bg-light h-12 md:h-16 border-secondary border-2 md:border-4 flex items-center justify-between',
         className
@@ -39,3 +40,5 @@ export const SearchBar = ({ onSubmit, className }: SearchBarProps) => {
     </form>
   );
 };
+
+export default SearchBar;
