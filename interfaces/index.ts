@@ -6,5 +6,3 @@ export interface IProvince {
     lon: number;
   };
 }
-
-

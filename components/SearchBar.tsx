@@ -1,38 +1,41 @@
+import clsx from 'clsx';
+
 import { motion } from 'framer-motion';
-const SearchBar = ({ onSubmit }) => {
+
+interface SearchBarProps {
+  onSubmit: (query: string) => void;
+  className?: string;
+}
+
+export const SearchBar = ({ onSubmit, className }: SearchBarProps) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const query = (e.currentTarget[0] as HTMLInputElement).value;
+    onSubmit(query);
+  };
+
   return (
     <form
-      className='flex items-center justify-center w-full h-20 bg-gray-100'
-      onSubmit={onSubmit}>
-      <motion.input
+      className={clsx(
+        'bg-light h-12 md:h-16 border-secondary border-2 md:border-4 flex items-center justify-between',
+        className
+      )}
+      onSubmit={handleSubmit}>
+      <input
         type='text'
-        placeholder='Misiones'
-        className='w-1/2 h-10 px-5 pr-10 text-sm text-gray-700 bg-white rounded-full focus:outline-none'
+        placeholder='e.g. Buenos Aires'
+        className='h-full text-12 md:text-16 lg:text-24 bg-transparent pl-4 flex-1'
         minLength={2}
+        maxLength={60}
         required
-        animate = {{
-          scale: [1, 1.2, 1, 1.2, 1],
-
-          backgroundColor: ['#0ea5e9', '#f8e71c', '#0ea5e9', '#f8e71c', '#0ea5e9'],
-        }}
-        transition = {{
-          duration: 1
-        }}
-
       />
       <motion.button
         type='submit'
-        className='w-20 h-10 px-5 text-sm font-bold text-white bg-blue-500 rounded-full m-10'
-        whileHover={{
-          scale: 1.3,
-          color: '#0ea5e9',
-          backgroundColor: '#f8e71c',
-        }}
-        whileTap={{ scale: 0.9 }}>
-        Search
+        whileHover={{ backgroundColor : "#fcbf45", color: "#f7f7f7" }}
+        whileTap={{ scale: 0.9 }}
+        className='w-16 md:w-24 text-24 text-secondary h-full border-l-2 md:border-l-4 border-secondary'>
+        {'>'}
       </motion.button>
     </form>
   );
 };
-
-export default SearchBar;

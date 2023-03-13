@@ -1,15 +1,28 @@
-const Card = ({ province }) => {
+import { IProvince } from '../interfaces';
+
+import clsx from 'clsx';
+
+interface CardProps {
+  province: IProvince;
+  className?: string;
+}
+
+export const Card = ({ province, className }: CardProps) => {
   const {
     nombre,
     centroide: { lat, lon },
   } = province;
+
   return (
-    <div className='bg-white shadow-md rounded-lg p-4 w-80'>
-      <h3 className='text-xl font-bold'>{nombre}</h3>
-      <p className='text-gray-500'>Latitude {lat}</p>
-      <p className='text-gray-500'>Longitude {lon}</p>
+    <div className={clsx('relative', className)}>
+      <div className='relative z-10 border-4 border-dark rounded-lg bg-light h-full p-4 flex flex-col justify-between'>
+        <h3 className='text-24 md:text-32 font-heading mb-16'>{nombre}</h3>
+        <div>
+          <p className='text-16 md:text-24'>Latitude: {lat}</p>
+          <p className='text-16 md:text-24'>Longitude: {lon}</p>
+        </div>
+      </div>
+      <div className='absolute w-full h-full -bottom-2 -right-2 rounded-lg bg-dark'></div>
     </div>
   );
 };
-
-export default Card;
