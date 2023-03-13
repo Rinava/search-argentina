@@ -1,15 +1,19 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../api/auth/[...nextauth]';
 
 import { IProvince } from '../../../interfaces';
 
 import { Card } from '../../../components/Card';
 
 export default function Provinces({ province }: { province: IProvince }) {
+  const title = `${province.nombre} - Latitude and Longitude in Argentina`;
+
   return (
     <>
       <Head>
-        <title>{province.nombre} - Latitude and Longitude in Argentina</title>
+        <title>{title}</title>
         <meta name='description' content='App to search a place in Argentina' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.jpg' />
@@ -27,25 +31,29 @@ export default function Provinces({ province }: { province: IProvince }) {
   );
 }
 
-export async function getStaticPaths() {
-  const res = await fetch(`${process.env.API_URL}`);
-  const data = await res.json();
-  const provinces = data.provincias as IProvince[];
-
-  const paths = provinces.map((province) => ({
-    params: { nombre: province.nombre },
-  }));
-
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({
+export async function getServerSideProps({
   params,
+  req,
+  res,
 }: {
   params: { nombre: string };
+  req: any;
+  res: any;
 }) {
-  const res = await fetch(`${process.env.API_URL}?nombre=${params.nombre}`);
-  const data = await res.json();
+  const session = await getServerSession(req, res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+      },
+    };
+  }
+
+  const response = await fetch(
+    `${process.env.API_URL}?nombre=${params.nombre}`
+  );
+  const data = await response.json();
   const provinces = data.provincias;
   const province = provinces[0];
 
