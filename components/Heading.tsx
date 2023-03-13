@@ -32,6 +32,7 @@ export const Heading = ({ onSubmit, provinces }: HeadingProps) => {
         height={1080}
         alt=''
         className='w-[150vw] max-w-[1920px] absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2 opacity-10'
+        priority
       />
       <div className='z-10 max-w-7xl mx-auto px-4 h-full w-full flex flex-col justify-center items-center'>
         <h1 className='text-24 md:text-32 lg:text-42 text-center text-light mb-6 md:mb-8 font-heading'>
